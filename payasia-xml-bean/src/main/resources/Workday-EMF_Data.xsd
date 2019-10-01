@@ -1,0 +1,1052 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:pi="http://payasia.mind.com/xml/bean/workday/empdata"
+            targetNamespace="http://payasia.mind.com/xml/bean/workday/empdata"
+            elementFormDefault="qualified"
+            attributeFormDefault="qualified">
+    <xsd:element name="Payroll_Extract_Employees">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="PayGroup" type="pi:PayGroupType" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:complexType name="PayGroupType">
+        <xsd:sequence>
+            <xsd:element name="Header" type="pi:HeaderType"/>
+            <xsd:element name="Employee"
+                      type="pi:EmployeeType"
+                      minOccurs="0"
+                      maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="HeaderType">
+        <xsd:sequence>
+            <xsd:element name="Version" type="xsd:string"/>
+            <xsd:element name="Payroll_Company_ID" minOccurs="0" type="xsd:string"/>
+            <xsd:element name="Payroll_Company_Name" type="xsd:string"/>
+            <xsd:element name="Pay_Group_ID" minOccurs="0" type="xsd:string"/>
+            <xsd:element name="Pay_Group_Name" type="xsd:string"/>
+            <xsd:element name="Pay_Period_Start" type="xsd:string"/>
+            <xsd:element name="Pay_Period_End" type="xsd:string"/>
+            
+            <xsd:element name="Updated_From" type="xsd:string"/>
+            
+            <xsd:element name="Updated_To" type="xsd:string"/>
+            <xsd:element name="All_Effective" type="xsd:string"/>
+             
+            <xsd:element name="Document_Retention_Policy" type="xsd:string"/>
+            
+             
+            <xsd:element name="Full_Extract_With_No_Diff" type="xsd:string"/>
+            
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="EmployeeType">
+      <xsd:sequence>
+         <xsd:element name="Summary" type="pi:SummaryType"/>
+         <xsd:element name="Personal"
+                      type="pi:PersonalType"
+                      minOccurs="0"
+                      nillable="true"/>
+         <xsd:element name="Status"
+                      type="pi:StatusType"
+                      minOccurs="0"
+                      nillable="true"/>
+         <xsd:element name="Position"
+                      type="pi:PositionType"
+                      minOccurs="0"
+                      nillable="true"
+                      maxOccurs="unbounded"/>
+         <xsd:element name="Allowance_Plans"
+                      type="pi:Allowance_PlansType"
+                      minOccurs="0"
+                      nillable="true"
+                      maxOccurs="unbounded"/>
+         <xsd:element name="Salary_and_Hourly_Plans"
+                      type="pi:Salary_and_Hourly_PlansType"
+                      minOccurs="0"
+                      nillable="true"
+                      maxOccurs="unbounded"/>
+         <xsd:element name="Earnings_Deductions"
+                      type="pi:Earnings_DeductionsType"
+                      minOccurs="0"
+                      nillable="true"
+                      maxOccurs="unbounded"/>
+         <xsd:element name="Identifier"
+                      type="pi:IdentifierType"
+                      minOccurs="0"
+                      nillable="true"
+                      maxOccurs="unbounded"/>
+         <xsd:element name="Payment_Election"
+                      type="pi:Payment_ElectionType"
+                      minOccurs="0"
+                      nillable="true"
+                      maxOccurs="unbounded"/>
+         <xsd:element name="Pay_Data"
+                      type="pi:Pay_DataType"
+                      minOccurs="0"
+                      nillable="true"
+                      maxOccurs="unbounded"/>
+         <xsd:element name="Additional_Information"
+                      type="pi:Additional_InformationType"
+                      minOccurs="0"
+                      nillable="true"
+                      maxOccurs="unbounded"/>
+      </xsd:sequence>
+   </xsd:complexType>
+    <xsd:complexType name="SummaryType">
+        <xsd:sequence>
+            <xsd:element name="Employee_ID" type="pi:StringType"/>
+            <xsd:element name="Name" type="pi:StringType"/>
+            <xsd:element name="Payroll_Company_ID" minOccurs="0" type="pi:StringType"/>
+            <xsd:element name="Payroll_Company_Name" type="pi:StringType"/>
+            <xsd:element name="Pay_Group_ID" minOccurs="0" type="pi:StringType"/>
+            <xsd:element name="Pay_Group_Name" type="pi:StringType"/>
+            <xsd:element name="Contain_Corrections_or_Rescinds"
+                      minOccurs="0"
+                      type="pi:BooleanType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Allowance_PlansType">
+      <xsd:annotation>
+         <xsd:documentation>This section includes worker allowance plan information. There can be one or more allowance plan data sections per worker.  
+This section includes an "Operation" field that indicates if the section is added, removed, modified, or unchanged.
+Field attributes define the behaviors and restrictions of individual fields. Enable "Include in Output" to include a field in the 
+output file. Enable "Required Field" to require the field to be included in the output file. Enter a "Maximum Length" to truncate any value that exceeds the limit value.
+If you specify a Payroll Interface version of 16 or later (using the "Version" integration attribute), you can define the format of date type
+and date-time type fields using the "Date Format" and "Datetime Format" integration attributes.
+For Boolean type fields, valid values are 0(false) and 1(true).
+Fields annotated with (IA) indicate that the field value may be controlled by an integration attribute.
+Fields annotated with (IM) indicate that the field value can be mapped using an integration map.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element name="Operation"
+                      type="pi:PYI_Operation_Type"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>This field is used to indicate the change made to worker positions between extracts. Supported values include “ADD”, “REMOVE”, “MODIFY” and “NONE”. The “Include in Output” field attribute does not apply to this field. This field will always be included in the output if the position section is present.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Compensation_Plan"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IM) The compensation plan assigned to the allowance plan assignment. You can map this field using the “Compensation Plan” Integration Map.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Percentage"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The percent from the allowance plan assignment.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Amount"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The amount from the allowance plan assignment. This is a Decimal type field.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Currency"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IM) The currency type for all monetary amounts in the output file. You can map this field using the “Currency” Integration Map.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Frequency"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IM) The frequency in which the amounts or percentages above should be paid or deducted. You can map this field using the “Frequency” Integration Map.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Start_Date"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The effective start date of allowance plan assignment.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="Earnings_DeductionsType">
+      <xsd:annotation>
+         <xsd:documentation>This section includes a worker’s earnings and deductions information. There can be one to many earnings and deduction sections per worker. The occurrence behavior of this section depends on how the “Include Earnings and Deductions section” integration attribute is configured. For sections that can occur multiple times, an “Operation” field is added to the section to indicate if the associated section is added, removed, modified or unchanged. The as-of-effective date for earnings and deductions can be changed to the payment date using  the“Calculate Benefits as of Pay Check Date” integration attribute.
+Field attributes define the behaviors and restrictions of individual fields. Enable “Include in Output” for a field to include the field in the output file. Enable “Required Field” to require the field to be included in the output file. Select a Maximum Length to truncate any value that exceeds the limit  value.
+If you specify a Payroll Interface version of 16 or later, (using the Version integration attribute), you can define the format of date type and date-time type fields using the Date Format and Datetime Format integration attributes.
+For Boolean type fields, valid values are 0 (false) and 1 (true).
+Fields annotated with (IA) indicate that the field value may be controlled by an integration attribute.
+Field annotated with (IM) indicate that the field value can be mapped using an Integration Map.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element name="Operation"
+                      type="pi:PYI_Operation_Type"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>This field is used to indicate the change made to worker positions between extracts. Supported values include “ADD”, “REMOVE”, “MODIFY” and “NONE”. The “Include in Output” field attribute does not apply to this field. In most cases, earnings and deductions are effectively ended. During those cases, the operation field will output a “REMOVE” along with a date for “First Day No Longer Applies”, which is one day after the effective end date. However, during a transfer, it is possible for some earnings and deductions to be no longer applicable while the benefit deductions or compensation earning is still applicable. While transferring between Pay Groups, it is possible for the PGO worker transaction to include “REMOVE” earning and deductions that does not have a “First Day No Longer applies. The “Include in Output” field attribute does not apply to this field. This field will always be included in the output if the position section is present.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Code" type="pi:StringType" minOccurs="0" nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The external earning or deduction code.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Start_Date"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The effective start date of this earning or deduction.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="First_Day_No_Longer_Applies"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The first day in which this earning or deduction no longer applies for the worker. This is always one day after the effective end date of the earning or deduction.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Amount"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The amount being earned or deducted. This is a Decimal type field.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Prorated_Amount"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The earning amount prorated for the worker's Full Time Equivalent (FTE) percentage. Field applies only to compensation earnings. Field is a decimal value.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Percentage"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The percentage elected by the worker for this particular earning or deduction. This is a Decimal type field.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Frequency"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IM) The frequency in which the amounts or percentages above should be paid or deducted. You can map this field using the “Frequency” Integration Map.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Currency"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IM) The currency type for all monetary amounts in the output file. You can map this field using the “Currency” Integration Map.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="IdentifierType">
+      <xsd:annotation>
+         <xsd:documentation>This section includes the worker’s Identifier information. This information is maintained as part of the worker’s ID information. There can be one to many Identifiers per worker. The occurrence behavior of this section depends on how the “Include Identifiers section” integration attribute is configured. Additionally, the “National ID Required” integration attribute is used to validate if one of the IDs for this worker is an National ID. For sections that can occur multiple times, an “Operation” field is added to the section in order to indicate if the associated section is added, removed, modified, or unchanged.
+Field attributes define the behaviors and restrictions of individual fields. Enable “Include in Output” for a field to include the field in the output file. Enable “Required Field” to require the field to be included in the output file. Select a Maximum Length to truncate any value that exceeds the limit  value.
+If you specify a Payroll Interface version of 16 or later, (using the Version integration attribute), you can define the format of date type and date-time type fields using the Date Format and Datetime Format integration attributes.
+For Boolean type fields, valid values are 0 (false) and 1 (true).
+Fields annotated with (IA) indicate that the field value may be controlled by an integration attribute.
+Field annotated with (IM) indicate that the field value can be mapped using an Integration Map.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element name="Operation"
+                      type="pi:PYI_Operation_Type"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>This field is used to indicate the change made to the worker’s Identifier information between extracts. Supported values include “ADD”, “REMOVE”, “MODIFY” and “NONE”. The “Include in Output” field attribute does not apply to this field. This field is always included in the output if the position section is present.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Identifier_Type"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IM) You can map this field using either the “Identifier Type” or “National ID Type” Integration Maps. The integration map used depends on the identifier type that you want to mapped.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Identifier_Value"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>This field contain the ID value or the “Identification #” value.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="Pay_DataType">
+      <xsd:annotation>
+         <xsd:documentation>This section includes the worker’s one-time payment data. There can be one to many one time payment data sections per worker. The occurrence behavior of this section depends on how the “Include Pay Data section” integration attribute is configured. Since one-time payment data is considered bulk data, Workday recommends that you extract Pay Data with a dedicated integration system to ensure better performance. Additionally, since one-time payment data is only applicable within a specified pay period, changes made to one-time payment amounts during incremental extracts within the same pay period are considered an increment or a decrement of the original amount. The Prior Value” integration attribute for the Amount element would display the relevant increment or decrement amount rather than the amount specified in  the previous extract.
+Field attributes define the behaviors and restrictions of individual fields. Enable “Include in Output” for a field to include the field in the output file. Enable “Required Field” to require the field to be included in the output file. Select a Maximum Length to truncate any value that exceeds the limit  value.
+If you specify a Payroll Interface version of 16 or later, (using the Version integration attribute), you can define the format of date type and date-time type fields using the Date Format and Datetime Format integration attributes.
+For Boolean type fields, valid values are 0 (false) and 1 (true).
+Fields annotated with (IA) indicate that the field value may be controlled by an integration attribute.
+Field annotated with (IM) indicate that the field value can be mapped using an Integration Map.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element name="Code" type="pi:StringType" minOccurs="0" nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The external earning or deduction code.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Date" type="pi:StringType" minOccurs="0" nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The date of the one time payment defined in this section. This is a Date type field.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Amount"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The amount paid for this one time payment. This is a Decimal type field.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Currency"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IM) the currency in which the pay amounts are represented in. You can map this field using the “Currency” Integration Map.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="Payment_ElectionType">
+      <xsd:annotation>
+         <xsd:documentation>This section includes the worker’s Payroll Payment Elections. There can be one to many Payment Elections per worker. The occurrence behavior of this section depends on how the “Include Payment Elections section” integration attribute is configured. To determine which payment elections are selected as part of the integration output, the “Payment Election Rule for Regular Payments” integration attribute specifies the “Pay Type” for Payment Elections to be selected. If this integration attribute is unspecified, then no payment elections will be selected. It is also possible to filter the selected Payment Elections based on the “Payment Type”. To indicate which Payment Type should be included, use the “Payment Election Types for Direct Deposits” integration attribute. If this integration attribute is left unspecified, then no payment elections will be selected. For sections that can occur multiple times, an “Operation” field is added to the section in order to indicate if the associated section is added, removed, modified or unchanged.
+Field attributes define the behaviors and restrictions of individual fields. Enable “Include in Output” for a field to include the field in the output file. Enable “Required Field” to require the field to be included in the output file. Select a Maximum Length to truncate any value that exceeds the limit  value.
+If you specify a Payroll Interface version of 16 or later, (using the Version integration attribute), you can define the format of date type and date-time type fields using the Date Format and Datetime Format integration attributes.
+For Boolean type fields, valid values are 0 (false) and 1 (true).
+Fields annotated with (IA) indicate that the field value may be controlled by an integration attribute.
+Field annotated with (IM) indicate that the field value can be mapped using an Integration Map.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element name="Operation"
+                      type="pi:PYI_Operation_Type"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>This field indicates the changes made to the worker’s Payment Elections information between extracts. Supported values include “ADD”, “REMOVE”, “MODIFY” and “NONE”. The “Include in Output” field attribute does not apply to this field. This field is always included in the output if the position section is present.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Order"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The bank account name of the payment distribution account.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Bank_Account_Name"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The bank account name of the payment distribution account.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Account_Number"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The account number of the payment distribution account.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Bank_Name"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The bank name for the payment distribution account’s bank.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Bank_ID_Number"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The bank ID number for the payment distribution account’s bank.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Branch_ID_Number"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Distribution_Amount"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>This is a Decimal Type field. This field is mutually exclusive to the “Distribution Percentage” and “Distribution Balance” fields.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Distribution_Percentage"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>This is a Decimal Type field. This field is mutually exclusive to the “Distribution Amount” and “Distribution Balance” fields.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Distribution_Balance"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>This is a Boolean Type field. This field is mutually exclusive to the “Distribution Amount” and “Distribution Percentage” fields.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="PersonalType">
+      <xsd:annotation>
+         <xsd:documentation>This section includes worker names, addresses, general and country-specific contact information. There is only one Personal Data section per worker. The occurrence behavior of this section depends on how the Payroll Interface Include Personal Data Section integration attribute is configured.
+Field attributes define the behaviors and restrictions of individual fields. Enable Include in Output for a field to include the field in the output file. Enable Required Field to require the field to be included in the output file. Select a Maximum Length to truncate any value that exceeds the limit  value.
+If you specify a Payroll Interface version of 16 or later, (using the Version integration attribute), you can define the format of date type and date-time type fields using the Date Format and Datetime Format integration attributes.
+For Boolean type fields, valid values are 0 (false) and 1 (true).
+Fields annotated with (IA) indicate that the field value may be controlled by an integration attribute.
+Field annotated with (IM) indicate that the field value can be mapped using an Integration Map.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element name="First_Name"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IA) Preferred/Legal First Name. Type of name selected depends on configuration of the Use Preferred Name when present integration attribute. The First Name value can have varying labels depending on the name’s country of origin. For example, First Name (Philippines) has the label Given Name(s).</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Middle_Name"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IA) Preferred/Legal Middle Name. Type of name selected depends on configuration of the Use Preferred Name when present integration attribute.  The Middle Name value can have varying labels depending on the name’s country of origin. For example, Middle Name (Tunisia) has the label Father’s Name – Latin Script.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Last_Name"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IA) Preferred/Legal Last Name. Type of name selected depends on configuration of the Use Preferred Name when present integration attribute. The Last Name value can have varying labels depending on the name’s country of origin. For example, Last Name (Tunisia) has the label “Family Name – Latin Script”.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Title" type="pi:StringType" minOccurs="0" nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IA) (IM) Preferred/Legal name’s Title. Type of name selected depends on configuration of the Use Preferred Name when present integration attribute. You can map values using the “Title” Integration Map. Titles are country-specific and use “Title” type name component values.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Gender"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IM) You can map this field using the “Gender” Integration Map.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Birth_Date"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>This is a Datetime type field.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Marital_Status"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IM) You can map this field using the “Payroll Marital Status” Integration Map.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="First_Address_Line_Data"
+                      type="pi:Address_LineType"
+                      minOccurs="0"
+                      nillable="true"
+                      maxOccurs="9">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="First_Municipality"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IA) Municipality of the first address from the  “City” address component. This is a free-form text field. The label for this address component can vary depending on address’s country. For example, City (Taiwan) has the label “Town, City, or District”.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="First_Region"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IA) (IM) Region of the first address from the “Region” address component. You can map this value using the “Region” Integration Map.. The label for this address component can vary depending on the address’s country. For example, Region (China) has the label “Province or City”.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="First_Postal_Code"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IA) Postal Code of first address from the “Postal Code” address component. This is a free-form text field.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="First_Country"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IA) Country of the first address. Countries are presented using ISO 3166-1 Alpha-2 Codes. If there are countries listed on  the “Restrict Addresses to These Countries” integration attribute, then Payroll Interface validates if the First Address’s country is within the listed countries.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Phone_Number"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IA) Phone number of the primary phone used by worker for the usage type defined in the “Communication Usage Type for Phone” integration attribute. This field does not include international phone code, phone number or phone extension.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="First_Email_Address"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IA) Primary Email Address used by worker for the usage type defined in the “Communications Usage Type for First Email Address” integration attribute.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="PositionType">
+      <xsd:annotation>
+         <xsd:documentation>This section includes the worker’s position information. There can be one to many position sections per worker. The occurrence behavior of this section depends on how the “Include Position Data section” integration attribute is configured. For sections that can occur multiple times, an “Operation” field is included in the section that indicates if the associated section is added, removed, modified or unchanged. With this operation field, the third-party payroll system can capture the changes made to the worker’s position assignments between extracts.
+Field attributes define the behaviors and restrictions of individual fields. Enable “Include in Output” for a field to include the field in the output file. Enable “Required Field” to require the field to be included in the output file. Select a Maximum Length to truncate any value that exceeds the limit  value.
+If you specify a Payroll Interface version of 16 or later, (using the Version integration attribute), you can define the format of date type and date-time type fields using the Date Format and Datetime Format integration attributes.
+For Boolean type fields, valid values are 0 (false) and 1 (true).
+Fields annotated with (IA) indicate that the field value may be controlled by an integration attribute.
+Field annotated with (IM) indicate that the field value can be mapped using an Integration Map.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element name="Operation"
+                      type="pi:PYI_Operation_Type"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>This field is used to indicate the change made to worker positions between extracts. Supported values include “ADD”, “REMOVE”, “MODIFY” and “NONE”. The “Include in Output” field attribute does not apply to this field. This field will always be included in the output if the position section is present.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Effective_Date"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The date which the worker became effective in this position. This is a Date type field.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Business_Title"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>Business Title from the worker’s Job Detail.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Worker_Type"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IM) You can map this field using the “Worker Type” Integration Map.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Position_Time_Type"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IM) You can map this field using the “Position Time Type” Integration Map.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Scheduled_Weekly_Hours"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>Expected number of hours for this position per week. This is a Decimal type field.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Pay_Rate_Type"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IM) You can map this field using the “Pay Rate Type” Integration Map.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Organization_One"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IA) (IM) The type of Organization selected for this field is determined by the “Organization Type for Organization One” integration attribute. If there are multiple Organizations matching the specified type, Workday returns a warning and defaults this field to the first of the Organizations retrieved. You can map this field using the “Organization” Integration Map.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="Salary_and_Hourly_PlansType">
+      <xsd:annotation>
+         <xsd:documentation>This section includes worker salary or hourly plan information. There can be one or more salary or hourly plan data sections per worker. 
+This section includes an "Operation" field that indicates if the section is added, removed, modified, or unchanged.
+Field attributes define the behaviors and restrictions of individual fields. Enable "Include in Output" to include a field in the 
+output file. Enable "Required Field" to require the field to be included in the output file. Enter a "Maximum Length" to truncate any value that exceeds the limit value.
+If you specify a Payroll Interface version of 16 or later (using the "Version" integration attribute), you can define the format of date type
+and date-time type fields using the "Date Format" and "Datetime Format" integration attributes.
+For Boolean type fields, valid values are 0(false) and 1(true).
+Fields annotated with (IA) indicate that the field value may be controlled by an integration attribute.
+Fields annotated with (IM) indicate that the field value can be mapped using an integration map.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element name="Operation" type="pi:StringType" minOccurs="0" nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>This field is used to indicate the change made to worker positions between extracts. Supported values include “ADD”, “REMOVE”, “MODIFY” and “NONE”. The “Include in Output” field attribute does not apply to this field. This field will always be included in the output if the position section is present.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Compensation_Plan" type="pi:StringType" minOccurs="0" nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IM) The compensation plan assigned to the salary or hourly assignment. You can map this field using the “Compensation Plan” Integration Map.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Amount" type="pi:StringType" minOccurs="0" nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The amount from the salary or hourly plan assignment. This is a Decimal type field.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Currency" type="pi:StringType" minOccurs="0" nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IM) The currency type for all monetary amounts in the output file. You can map this field using the “Currency” Integration Map.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Frequency" type="pi:StringType" minOccurs="0" nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IM) The frequency in which the amounts or percentages above should be paid or deducted. You can map this field using the “Frequency” Integration Map.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Start_Date" type="pi:StringType" minOccurs="0" nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The effective start date of salary or hourly plan assignment.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="StatusType">
+      <xsd:annotation>
+         <xsd:documentation>This section includes the worker’s employment status information. There is only one status section per worker. In addition, the worker also can have staffing transactions that occurred between the previous and current extract captured in this section. If multiple staffing transactions occurred between extracts, only the latest transaction is included in the output file. The occurrence behavior of this section depends on how the “Include Status Data section” integration attribute is configured.
+Field attributes define the behaviors and restrictions of individual fields. Enable “Include in Output” for a field to include the field in the output file. Enable “Required Field” to require the field to be included in the output file. Select a Maximum Length to truncate any value that exceeds the limit  value.
+If you specify a Payroll Interface version of 16 or later, (using the Version integration attribute), you can define the format of date type and date-time type fields using the Date Format and Datetime Format integration attributes.
+For Boolean type fields, valid values are 0 (false) and 1 (true).
+Fields annotated with (IA) indicate that the field value may be controlled by an integration attribute.
+Field annotated with (IM) indicate that the field value can be mapped using an Integration Map.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element name="Pay_Group"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>Name of the Pay Group for the worker.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Staffing_Event"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The most recent staffing transaction that occurred between the last and the current extract. Supported transactions include, HIR (Hire), TRM (Terminated), LOA (Leave of Absence), RFL (Return from Leave), PCI (Pay Company Transfer In), PGI (Pay Group Transfer In), PCO (Pay Company Transfer Out), PGO (Pay Group Transfer Out) and empty value (No Event). If multiple staffing transaction occurred between extracts, Workday determines the staffing transaction by comparing the latest employment status with that of the last extract.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Staffing_Event_Date"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The occurrence date of the transaction specified in Staffing Event. This is a Date type field.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Active"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>This is a Boolean type field indicating if the worker is currently an active employee.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Hire_Date"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The date on which this worker was last hired. This is a Date type field.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Termination_Date"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The date on which this worker was last terminated. This is a Date type field.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Primary_Termination_Reason"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IM) The most recent primary reason that this worker was terminated. You can map this field using  the “Primary Termination Reason” Integration Map.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Local_Termination_Reason"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IM) Termination reasons are specific to a region or country. You can map this field using the “Local Termination Reason” Integration Map.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="Additional_InformationType">
+      <xsd:sequence>
+      	<xsd:element name="MiddleName_Initial"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="TFN_AustralianResident"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="TFN_ClaimTaxFreeThreshold"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="TFN_SeniorsTaxOffset"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="TFN_OtherTaxOffset"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="TFN_HelpDebt"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="TFN_AFSDebt"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Super_FundSMSF"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Super_FundABN"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Super_FundName"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Super_FundAddress"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Super_FundPhoneNumber"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Super_ProductCode"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Super_FundAccountName"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Super_MemberNumber"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Super_FundESA"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Super_FundBSB"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Super_FundAccountNumber"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="PrimaryLocation"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="EmploymentType"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         
+         <xsd:element name="PrimaryPayCategory"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="PaySchedule"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="AutomaticallyPayEmployee"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="IsEnabledForTimesheets"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="EmployingEntityABN"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation/>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+    
+    <xsd:simpleType name="Earning_or_DeductionValueType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="E"/>
+            <xsd:enumeration value="D"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:complexType name="Earning_or_Deduction_Type">
+        <xsd:simpleContent>
+            <xsd:extension base="pi:Earning_or_DeductionValueType">
+                <xsd:attribute name="PriorValue" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    
+    <xsd:simpleType name="Cost_Allocation_LevelValueType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="W"/>
+            <xsd:enumeration value="P"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:complexType name="PYI_Costing_Allocation_Level_Type">
+        <xsd:simpleContent>
+            <xsd:extension base="pi:Cost_Allocation_LevelValueType">
+                <xsd:attribute name="PriorValue" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    
+    <xsd:simpleType name="PYI_Operation_Type">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="ADD"/>
+            <xsd:enumeration value="REMOVE"/>
+            <xsd:enumeration value="MODIFY"/>
+            <xsd:enumeration value="NONE"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="Compensation_Summarization_Format_Type">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Annualized"/>
+            <xsd:enumeration value="Annualized in Reporting Currency"/>
+            <xsd:enumeration value="Default"/>
+            <xsd:enumeration value="Hourly Frequency"/>
+            <xsd:enumeration value="Pay Group Frequency"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:complexType name="Address_LineType">
+        <xsd:simpleContent>
+            <xsd:extension base="pi:StringType">
+                <xsd:attribute name="Label" type="xsd:string"/>
+                <xsd:attribute name="Type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    
+    <xsd:simpleType name="YearType">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="0"/>
+            <xsd:maxInclusive value="9999"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:complexType name="StringType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="PriorValue" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="BooleanType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:boolean">
+                <xsd:attribute name="PriorValue" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="DateType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:date">
+                <xsd:attribute name="PriorValue" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="DateTimeType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:dateTime">
+                <xsd:attribute name="PriorValue" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:schema>

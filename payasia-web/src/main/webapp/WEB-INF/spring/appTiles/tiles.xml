@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       
+       <tiles-definitions>
+       		<definition name="home.base.definition" template="/WEB-INF/views/common/home.jsp">
+       			<put-attribute name="title" value="" />
+       			<put-attribute name="header" value="" />
+       			<put-attribute name="form" value="" />
+       			<put-attribute name="footer" value="" />
+       		</definition>
+       		<definition name="admin/home" extends="home.base.definition">
+       			<put-attribute name="title" value="Welcome To PayAsia Admin" />
+       			<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+       			<put-attribute name="form" value="/WEB-INF/views/admin/home.jsp" />
+       			<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+       		</definition>
+	       		
+       		<definition name="employee/home" extends="home.base.definition">
+       			<put-attribute name="title" value="Welcome To Payasia" />
+       			<put-attribute name="form" value="/WEB-INF/views/employee/home.jsp" />
+       		</definition>
+       </tiles-definitions>

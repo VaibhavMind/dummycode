@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:p="http://www.springframework.org/schema/p"
+ xmlns:task="http://www.springframework.org/schema/task"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans 
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+      http://www.springframework.org/schema/task
+   http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+    
+    
+
+    <!-- XML way of adding Spring's scheduling support. 
+   This is managed by a given TaskScheduler. -->
+ <task:scheduled-tasks scheduler="taskScheduler">
+  
+  <!-- An interval-based trigger where the interval is measured from the completion time of the previous task.  -->
+  <task:scheduled ref="payasiaScheduler" method="saveLeaveReminderEmail" cron="${leave.scheduler.save.reminder.notification.time.interval}"/>
+  <task:scheduled ref="payasiaScheduler" method="sendLeaveReminderEmail" cron="${leave.scheduler.send.reminder.notification.time.interval}"/>
+  <task:scheduled ref="payasiaScheduler" method="callLeaveGrantProc" cron="${leave.scheduler.grant.employee.leave.time.interval}"/>
+  <task:scheduled ref="payasiaScheduler" method="callForfeitProc" cron="${leave.scheduler.forfeit.leave.time.interval}"/>
+  <task:scheduled ref="payasiaScheduler" method="scheduleLeaveSchemeTypeShortList" cron="${leave.scheduler.leave.type.shortlist.time.interval}"/>
+  <task:scheduled ref="payasiaScheduler" method="scheduleClaimTemplateItemShortList" cron="${claim.scheduler.claim.item.shortlist.time.interval}"/>
+  <task:scheduled ref="payasiaScheduler" method="scheduleEmploymentStatusUpdate" cron="${hris.scheduler.employment.status.update.time.interval}"/>
+  <task:scheduled ref="payasiaScheduler" method="yearEndProcess" cron="${leave.scheduler.year.end.process.time.interval}"/>
+   <task:scheduled ref="payasiaScheduler" method="yearEndLeaveActivateScheduler" cron="${leave.scheduler.year.end.activate.time.interval}"/>
+   <task:scheduled ref="payasiaScheduler" method="pushIOSDeviceNotifications" cron="${mobile.scheduler.ios.push.service.time.interval}"/>
+   <task:scheduled ref="payasiaScheduler" method="checkForgotPasswordTokenStatus" cron="${hris.scheduler.forgot.password.token.time.interval}"/>
+<task:scheduled ref="payasiaScheduler" method="lundinTimesheetReminderEmail" cron="${lundin.timesheet.mail.event.notification.time.interval}"/>
+   <task:scheduled ref="payasiaScheduler" method="keyPayLeaveIntegration" cron="${keypay.leave.integration.time.interval}"/>
+   <task:scheduled ref="payasiaScheduler" method="autoApprovalLeaveSchedular" cron="${leave.scheduler.auto.approval.time.interval}"/>
+    <task:scheduled ref="payasiaScheduler" method="lionTimesheetReminderEmail" cron="${lion.timesheet.mail.event.notification.time.interval}"/>
+    <task:scheduled ref="payasiaScheduler" method="coherentTimesheetReminderEmail" cron="${coherent.timesheet.mail.event.notification.time.interval}"/>
+    <task:scheduled ref="payasiaScheduler" method="leaveTypeActivationScheduler" cron="${leave.type.activation.scheduler.time.interval}"/>
+     <task:scheduled ref="payasiaScheduler" method="paySlipReleaseScheduler" cron="${paySlip.release.scheduler.time.interval}" />
+ </task:scheduled-tasks>
+ 
+ 
+ 
+   <!-- The bean that does the actual work -->
+ <bean id="payasiaScheduler" class="com.payasia.web.controller.impl.SchedulerControllerImpl">
+   		<constructor-arg name="leaveSchedulerSaveReminderNotificationEnabled" value="${leave.scheduler.save.reminder.notification.enabled}"/>
+   		<constructor-arg name="leaveSchedulerSendReminderNotificationEnabled" value="${leave.scheduler.send.reminder.notification.enabled}"/>
+   		<constructor-arg name="leaveSchedulerGrantEmployeeLeaveEnabled" value="${leave.scheduler.grant.employee.leave.enabled}"/>
+   		<constructor-arg name="leaveSchedulerForfeitLeaveTimeEnabled" value="${leave.scheduler.forfeit.leave.enabled}"/>
+   		<constructor-arg name="leaveSchedulerLeaveTypeShortlistTimeEnabled" value="${leave.scheduler.leave.type.shortlist.enabled}"/>
+   		<constructor-arg name="claimSchedulerClaimItemShortlistTimeEnabled" value="${claim.scheduler.claim.item.shortlist.enabled}"/>
+   		<constructor-arg name="hrisSchedulerEmploymentStatusUpdateTimeEnabled" value="${hris.scheduler.employment.status.update.enabled}"/>
+   		<constructor-arg name="yearEndProcessTimeEnabled" value="${leave.scheduler.year.end.process.enabled}"/>
+   		<constructor-arg name="yearEndLeaveActivateSchedulerTimeEnabled" value="${leave.scheduler.year.end.activate.enabled}"/>
+   		<constructor-arg name="mobileSchedulerIOSPushServiceTimeEnabled" value="${mobile.scheduler.ios.push.service.enabled}"/>
+   		<constructor-arg name="hrisSchedulerForgotPasswordTokenEnabled" value="${hris.scheduler.forgot.password.token.enabled}"/>
+   		
+   		<constructor-arg name="lundinTimesheetReminderNotificationEnabled" value="${lundin.timesheet.scheduler.reminder.mail.enabled}"/>
+   		<constructor-arg name="keypayLeaveIntegrationProcessEnabled" value="${keypay.leave.integration.process.enabled}"/>
+   		<constructor-arg name="autoApprovalLeaveSchedularEnabled" value="${leave.scheduler.auto.approval.enabled}"/>
+   		<constructor-arg name="lionTimesheetReminderNotificationEnabled" value="${lion.timesheet.scheduler.reminder.mail.enabled}"/>
+   		<constructor-arg name="coherentTimesheetReminderNotificationEnabled" value="${coherent.timesheet.scheduler.reminder.mail.enabled}"/>
+   		<constructor-arg name="leaveTypeActivationSchedulerEnabled" value="${leave.type.activation.scheduler.enabled}"/>
+   		<constructor-arg name="paySlipReleaseSchedulerEnabled" value="${paySlip.release.scheduler.enabled}" />
+ </bean> 
+ 
+
+ 
+ <task:scheduler id="taskScheduler" pool-size="1"/>
+  
+          
+</beans>

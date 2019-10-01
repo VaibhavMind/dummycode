@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<!-- -->
+	<global-method-security pre-post-annotations="enabled" />
+
+	<http realm="Contacts Realm" auto-config="true" use-expressions="true">
+		 <custom-filter ref="payAsiaAuthFilter" before="FORM_LOGIN_FILTER"/>
+		<intercept-url pattern="/" access="permitAll" />
+		<intercept-url pattern="/WEB-INF/views/welcome.jsp"
+			access="permitAll" />
+		<intercept-url pattern="/login.html" access="permitAll" />
+		<intercept-url pattern="/login.html*" access="permitAll" />
+		<intercept-url pattern="/resources/**" access="permitAll" />
+		<intercept-url pattern="/forgetPassword.html" access="permitAll" />
+		<intercept-url pattern="/forgetPassword.html*" access="permitAll" />
+		<intercept-url pattern="/WEB-INF/views/errors/**"
+			access="permitAll" />
+		 <intercept-url pattern="/**" access="hasAnyRole('PRIV_CONTACT_US','PRIV_PAY_DATA_COLLECTION','PRIV_PAY_SLIP_FORM_DESIGNER','PRIV_HR_LETTERS','PRIV_COMPANY_INFORMATION','PRIV_COMPANY_FORM_DESIGNER',
+									        'PRIV_CURRENCY_DEFINITION','PRIV_LOGO_UPLOAD','PRIV_COMPANY_DOCUMENT_CENTER','PRIV_SWITCH_COMPANY',
+									        'PRIV_EMPLOYEE_LIST','PRIV_EMPLOYEE_SELF_SERVICE','PRIV_EMPLOYEE_PAY_SLIP','PRIV_TAX_DOCUMENT','PRIV_DATA_EXCHANGE_TEMPLATE_DESIGNER','PRIV_IMPORT','PRIV_EXPORT','PRIV_EMPLOYEE_NUMBER_SERIES','PRIV_PAY_SLIP_DESIGNER',
+									        'PRIV_CLAIM_TYPE_DEFINITION','PRIV_CLAIM_TEMPLATE_DEFINITION','PRIV_CLAIM_REVIEWER','PRIV_CLAIM_BATCH_DEFINITION','PRIV_ADD_CLAIMS','PRIV_MODIFY_CLAIMS',
+									        'PRIV_WITHDRAW_CLAIMS','PRIV_LEAVE_TYPE_DEFINITION','PRIV_LEAVE_SCHEME_DEFINITION','PRIV_LEAVE_TYPE_REVIEWER','PRIV_LEAVE_BATCH_DEFINITION','PRIV_YEAR_END_PROCESSING','PRIV_ADD_LEAVES',
+									        'PRIV_MODIFY_LEAVES','PRIV_WITHDRAW_LEAVES','PRIV_OT_TYPE_DEFINITION','PRIV_OT_TEMPLATE_DEFINITION','PRIV_OT_REVIEWER','PRIV_OT_BATCH_DEFINITION','PRIV_ADD_OT','PRIV_MODIFY_OT','PRIV_WITHDRAW_OT','PRIV_DATA_IMPORT',
+									        'PRIV_DATA_EXPORT','PRIV_PAYSLIP_IMPORT','PRIV_MANAGE_ROLES','PRIV_ACCESS_CONTROL','PRIV_CHANGE_EMPLOYEE_NUMBER','PRIV_EMAIL_TEMPLATE',
+									        'PRIV_SYSTEM_SWITCH_USER','PRIV_SYSTEM_WORKFLOW_DELEGATES','PRIV_HOLIDAY_LIST_DEFINITION','PRIV_HOLIDAY_LIST_MASTER','PRIV_EMAIL','PRIV_EMPLOYEE','PRIV_CLAIMS_OPTIONS','PRIV_REPORTING_OPTIONS','PRIV_PASSWORD_POLICY',
+									        'PRIV_PENDING_ITEMS','PRIV_MY_REQUESTS','PRIV_CHANGE_PASSWORD','PRIV_MY_PROFILE',
+									        'PRIV_MY_BALANCES','PRIV_TASKS_WORKFLOW_DELEGATES','PRIV_INFO_PAY_SLIP','PRIV_INFO_DOCUMENT_CENTER','PRIV_INFO_SWICH_USER','PRIV_EMPLOYEE_FORM_DESIGNER','PRIV_CALENDAR_TEMPLATE_DEFINITION')"/>	
+			
+			
+		
+
+		<form-login login-page="/login.html"
+			authentication-failure-url="/login.html?login_error=1" 
+			always-use-default-target="true"
+			default-target-url="/employeeHome.html"  />
+		<logout logout-success-url="/login.html" invalidate-session="true" />
+	
+	</http>
+
+
+	<beans:bean id="payAsiaAuthFilter"
+		class="com.payasia.web.security.PayAsiaAuthenticationFilter"  lazy-init="true">
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="authenticationFailureUrl" value="/login.html?login_error=1" />
+	</beans:bean>
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider ref="payAsiaAuthenticationProvider" /> 
+	</authentication-manager>
+
+
+	<beans:bean id="payAsiaAuthenticationProvider"
+		class="com.payasia.web.security.PayAsiaAuthenticationProvider" lazy-init="true"/>
+
+
+	<beans:bean id="payAsiauserDetailService"
+		class="com.payasia.web.security.PayAsiaUserDetailsService" />
+</beans:beans>

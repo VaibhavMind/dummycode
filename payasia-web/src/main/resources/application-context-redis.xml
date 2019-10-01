@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd" >
+
+	<!-- <beans:bean id="payasiaptProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<beans:property name="locations">
+			<beans:list>
+				<beans:value>classpath*:payasia-app.properties</beans:value>
+				<beans:value>file:///${payasiaAppPropertiesAPI}</beans:value>
+			</beans:list>
+		</beans:property>
+		<beans:property name="ignoreResourceNotFound" value="true"></beans:property>
+	</beans:bean> -->
+	<!-- <context:property-placeholder location="classpath:payasia-app.properties" /> -->
+
+	<beans:bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig" p:max-total="5" p:test-on-borrow="true" p:test-on-return="true" />
+
+	<beans:bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" p:host-name="${redis.host-name}" p:port="${redis.port}" p:use-pool="true">
+		<beans:constructor-arg ref="jedisPoolConfig" />
+	</beans:bean>
+
+	<beans:bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate" p:connection-factory-ref="jedisConnectionFactory">
+		<beans:property name="enableDefaultSerializer" value="true" />
+	</beans:bean>
+
+	<beans:bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate" p:connection-factory-ref="jedisConnectionFactory">
+		<beans:property name="enableDefaultSerializer" value="true" />
+	</beans:bean>  
+
+</beans:beans>

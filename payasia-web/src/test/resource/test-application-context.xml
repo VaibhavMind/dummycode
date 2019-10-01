@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+	<!-- Activates various annotations to be detected in bean classes for eg 
+		@Autowired -->
+	<context:annotation-config />
+
+
+	<import resource="application-context-properties.xml" />
+	<import resource="application-context-logging.xml" />
+	<import resource="application-context-logic.xml" />
+	<import resource="application-context-aop.xml" />
+	<import resource="application-context-dao.xml" />
+	<import resource="application-context-mail.xml" />
+	<!--<import resource="application-context-security.xml" />-->
+	<import resource="application-context-redis.xml" />
+	<!-- oauth2 related -->
+	<import resource="application-context-oauth2.xml" />
+	<import resource="application-context-scheduler.xml" />
+    <!-- <import resource="application-context-rest.xml" />	-->	
+
+	<context:component-scan base-package="com.payasia.web.util" />
+	<context:component-scan scoped-proxy="targetClass"
+		base-package="com.payasia.web.service.impl" name-generator="com.payasia.common.util.NameGeneratorImpl" />
+
+</beans>

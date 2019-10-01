@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://payasia.mind.com/xml/bean" xmlns="http://payasia.mind.com/xml/bean">
+
+
+<xs:element name="OTForm">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="1" maxOccurs="unbounded" ref="OTFormField" />
+			</xs:sequence>
+		</xs:complexType>
+</xs:element>
+
+	<xs:element name="OTFormField">
+		<xs:complexType>
+		<xs:sequence>
+				<xs:element minOccurs="1" maxOccurs="unbounded" ref="OTFormItemField" />
+			</xs:sequence>
+		  <xs:attribute name="date"  type="xs:string" />
+			<xs:attribute name="dayType"  type="xs:string" />
+			<xs:attribute name="remarks"  type="xs:string" />
+		</xs:complexType>
+		
+	</xs:element>
+
+	
+	<xs:element name="OTFormItemField">
+		<xs:complexType>
+			<xs:attribute name="otItemName"  type="xs:string" />
+			<xs:attribute name="otItemValue"  type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+

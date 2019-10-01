@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="debug" />
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d{yyyy/MM/dd HH:mm:ss} %-5p [%t] %C{2} (%F:%L) - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="ROLLING" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="debug" />
+		<param name="File" value="${catalina.base}/logs/payasia.log" />
+		<param name="Append" value="true" />
+		<param name="MaxFileSize" value="5MB" />
+		<param name="MaxBackupIndex" value="5" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %c{1} [%p] %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="ROLLING_PERF" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="trace" />
+		<param name="File" value="${catalina.base}/logs/payasia-web-perf.log" />
+		<param name="Append" value="true" />
+		<param name="MaxFileSize" value="2MB" />
+		<param name="MaxBackupIndex" value="5" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %c{1} [%p] %m%n" />
+		</layout>
+	</appender>
+
+	<category name="com.mind.payasia" additivity="false">
+		<priority value="debug" />
+		<appender-ref ref="ROLLING" />
+		<appender-ref ref="STDOUT" />
+	</category>
+
+	<category name="com.mind.payasia.common.aop.PerformanceInterceptor"
+		additivity="false">
+		<priority value="trace" />
+		<appender-ref ref="ROLLING_PERF" />
+		<appender-ref ref="STDOUT" />
+	</category>
+
+	<!-- Shows hibernate SQL -->
+	<category name="org.hibernate.SQL" additivity="false">
+		<priority value="debug" />
+		<appender-ref ref="ROLLING" />
+		<appender-ref ref="STDOUT" />
+	</category>
+
+	<!-- Shows hibernate parameters bound with query -->
+	<category name="org.hibernate.type" additivity="false">
+		<priority value="trace" />
+		<appender-ref ref="ROLLING" />
+		<appender-ref ref="STDOUT" />
+	</category>
+
+	<root>
+		<priority value="info" />
+		<appender-ref ref="ROLLING" />
+		<appender-ref ref="STDOUT" />
+	</root>
+
+</log4j:configuration>

@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<beanio xmlns="http://www.beanio.org/2012/03" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.beanio.org/2012/03 http://www.beanio.org/2012/03/mapping.xsd">
+
+  <stream name="spp" format="fixedlength">
+     <group name="textPaySlip"  class="com.payasia.test.logic.beans.TextPaySlipListDTO" 
+	        minOccurs="1" maxOccurs="1">
+           <group name="textPaySlipDTOList" getter="getTextPaySlipDTOList" setter="setTextPaySlipDTOList" collection="list" class="com.payasia.test.logic.beans.TextPaySlipDTO"
+                minOccurs="1" maxOccurs="unbounded" >
+				     <record name="blank" occurs="0+">
+				       <field name="filler" rid="true" regex="[ ]*" length="90" />
+				     </record>
+				     <record name="blank" occurs="0+">
+				       <field name="filler" rid="true" regex="[-*]*" length="90" />
+				     </record>
+				 
+				       <record name="empInfoHeaderSection1DTOList" getter="getEmpInfoHeaderSection1DTOList" setter="setEmpInfoHeaderSection1DTOList" class="com.payasia.test.logic.beans.EmpInfoHeaderTextPayslipDTO" 
+				        collection="list" minOccurs="1" maxOccurs="3" >
+				        <field name="keyConstant1" length="40" trim="false" />
+				        <field name="keyConstant2" length="27" trim="false" />
+				        <field name="keyConstant3" length="29" trim="true" justify="right" />
+				      </record>
+					  <record name="totalIncomeSectionDTOList" getter="getTotalIncomeSectionDTOList" setter="setTotalIncomeSectionDTOList" class="com.payasia.test.logic.beans.TotalIncomeSectionTextPayslipDTO" 
+				        collection="list" minOccurs="1" maxOccurs="12" >
+				        <field name="key1" position="1" length="32" trim="false" justify="left" padding=" " />
+				        <field name="key2" position="34" length="12" trim="true" justify="right" padding=" "/>
+				        <field name="key3" position="48" length="33" trim="false" justify="left" padding=" " />
+				        <field name="key4" position="84" length="12" trim="true" justify="right" padding=" " />
+				      </record>
+					   <record name="bankInfoSectionDTOList"  getter="getBankInfoSectionDTOList" setter="setBankInfoSectionDTOList" collection="list" minOccurs="1" maxOccurs="3" class="com.payasia.test.logic.beans.BankInfoTextPayslipDTO" >
+				        <field name="bankInfo" position="1" length="39" trim="false" justify="right" padding=" " />
+				        <field name="currentLabel" position="63" length="15" trim="true" justify="left" padding=" "/>
+				        <field name="ytdLabel" position="80" length="16" trim="false" justify="left" padding=" " />
+				      </record>
+					  <record name="summarySectionDTOList" getter="getSummarySectionDTOList" setter="setSummarySectionDTOList" class="com.payasia.test.logic.beans.SummarySectionTextPayslipDTO" 
+				        collection="list" minOccurs="1" maxOccurs="5" >
+				        <field name="key" position="47" length="13" justify="left" trim="true" padding=" "   />
+				        <field name="currentValue" position="64" length="14" justify="left" trim="true" padding=" "   />
+				        <field name="ytdValue" position="80" length="10" justify="left" trim="true" padding=" "   />
+				      </record>
+            </group>
+     </group>
+  </stream>
+</beanio>

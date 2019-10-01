@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<bean id="performanceInterceptor" class="com.payasia.common.aop.PerformanceInterceptor" />
+	<bean id="daoExceptionAdvice" class="com.payasia.common.aop.DAOThrowsAdvice" />
+	<bean id="logicExceptionAdvice" class="com.payasia.common.aop.LogicThrowsAdvice" />
+	<bean id="deleteAuditLogging" class="com.payasia.dao.util.GeneralDBUtility" />
+	
+	<bean id="concurrencyThrottleInterceptor"
+        class="org.springframework.aop.interceptor.ConcurrencyThrottleInterceptor" >
+		<property name="concurrencyLimit" value="5"/>
+	</bean>
+
+	<!-- enable the configuration of transactional behavior based on annotations  -->
+	<!-- <tx:annotation-driven transaction-manager="transactionManager"/> -->
+	
+	<tx:advice id="txDAOAdvice" transaction-manager="transactionManager">
+	   <tx:attributes>
+	     <tx:method name="get*" read-only="true" propagation="REQUIRED" timeout="120" />
+	     <tx:method name="find*" read-only="true" propagation="REQUIRED" timeout="120" />
+	     <tx:method name="getMaxTableRecordId" propagation="REQUIRES_NEW" timeout="120" />
+	     <tx:method name="getMaxFormId" propagation="REQUIRES_NEW" timeout="120" />
+	     <tx:method name="updateSchedulerStatus" propagation="REQUIRES_NEW" timeout="120" />
+		 <tx:method name="callProcessYearEndRollOverProc"  propagation="REQUIRED" timeout="3600" />
+		  <tx:method name="yearEndProcessSchedular"  propagation="REQUIRES_NEW" timeout="3600" />
+	     <tx:method name="*" propagation="REQUIRED" timeout="120" />
+	   </tx:attributes>
+	</tx:advice>
+	
+	<tx:advice id="txDAOAdvice1" transaction-manager="transactionManager">
+	   <tx:attributes>
+	   	 <tx:method name="get*" read-only="true" propagation="REQUIRED" timeout="120" />
+	     <tx:method name="find*" read-only="true" propagation="REQUIRED" timeout="120" />
+	     <tx:method name="*" propagation="REQUIRES_NEW" timeout="120" />
+	   </tx:attributes>
+	</tx:advice>
+	
+	<tx:advice id="txLogicAdvice" transaction-manager="transactionManager">
+	   <tx:attributes>
+	   	 <tx:method name="executeScheduler*" propagation="REQUIRES_NEW" timeout="3600" />
+		 <tx:method name="callSchedulerByName*" propagation="REQUIRED" timeout="7200" />
+	   	 <tx:method name="importFile" propagation="REQUIRED" timeout="7200" />
+		 <tx:method name="generateTextPaySlipPDF" propagation="REQUIRED" timeout="7200" />
+		 <tx:method name="uploadPaySlipPDF" propagation="REQUIRED" timeout="7200" />
+	   	 <tx:method name="*" propagation="REQUIRED" timeout="3600" no-rollback-for="com.payasia.common.exception.PayAsiaDataException,com.payasia.common.exception.PayAsiaPasswordPolicyException" />
+	   </tx:attributes>
+	</tx:advice>
+	
+	
+	<tx:advice id="txLogicAdvice1" transaction-manager="transactionManager">
+	   <tx:attributes>
+	   	 <tx:method name="get*" propagation="REQUIRED" timeout="120" />
+	   	 <tx:method name="find*" propagation="REQUIRED" timeout="120" />
+	   	 <tx:method name="*" propagation="REQUIRES_NEW" timeout="120" />
+	   </tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+		<aop:pointcut id="serviceOperation" expression="bean(*Service) or bean(*Controller)" />
+		<aop:advisor pointcut-ref="serviceOperation" advice-ref="performanceInterceptor" order="1" />
+	</aop:config>
+
+	<aop:config>
+		<aop:pointcut id="logicOperation" expression="bean(*Logic) and !bean(*COELogic)" />
+		<aop:advisor pointcut-ref="logicOperation" advice-ref="logicExceptionAdvice" order="1" />
+		<aop:advisor pointcut-ref="logicOperation" advice-ref="performanceInterceptor" order="2" />
+		<aop:advisor pointcut-ref="logicOperation" advice-ref="txLogicAdvice" order="3" />
+	</aop:config>
+	
+	<aop:config>
+		<aop:pointcut id="logicOperation1" expression="bean(*COELogic)" />
+		<aop:advisor pointcut-ref="logicOperation1" advice-ref="logicExceptionAdvice" order="1" />
+		<aop:advisor pointcut-ref="logicOperation1" advice-ref="performanceInterceptor" order="2" />
+		<aop:advisor pointcut-ref="logicOperation1" advice-ref="txLogicAdvice1" order="3" />
+	</aop:config>
+	
+	<aop:config>
+		<aop:pointcut id="logicImportOperation" expression="bean(*ImportUtils)" />
+		<aop:advisor pointcut-ref="logicImportOperation" advice-ref="logicExceptionAdvice" order="1" />
+		<aop:advisor pointcut-ref="logicImportOperation" advice-ref="performanceInterceptor" order="2" />
+		<aop:advisor pointcut-ref="logicImportOperation" advice-ref="txLogicAdvice" order="3" />
+	</aop:config>
+	
+	<aop:config>
+		<aop:pointcut id="logicExportOperation" expression="bean(*ExportUtils)" />
+		<aop:advisor pointcut-ref="logicExportOperation" advice-ref="logicExceptionAdvice" order="1" />
+		<aop:advisor pointcut-ref="logicExportOperation" advice-ref="performanceInterceptor" order="2" />
+		<aop:advisor pointcut-ref="logicExportOperation" advice-ref="txLogicAdvice" order="3" />
+	</aop:config>
+	
+	<aop:config>
+		<aop:pointcut id="logicGeneratePaySlip" expression="bean(*PaySlipLogic) and execution(* generatePdf(..))" />
+		<aop:advisor pointcut-ref="logicGeneratePaySlip" advice-ref="concurrencyThrottleInterceptor" />
+	</aop:config>
+	
+	<aop:config>
+		<aop:pointcut id="daoOperation" expression="bean(*DAO) and !bean(*LogDAO) and !bean(*ImportHistoryDAO)" />
+		<aop:advisor pointcut-ref="daoOperation" advice-ref="daoExceptionAdvice" order="1" />
+		<aop:advisor pointcut-ref="daoOperation" advice-ref="performanceInterceptor" order="2" />
+		<aop:advisor pointcut-ref="daoOperation" advice-ref="txDAOAdvice" order="3" />
+	</aop:config>
+ 
+	<aop:config>
+		<aop:pointcut id="daoOperation1" expression="bean(*LogDAO) or bean(*ImportHistoryDAO) or bean(*SchedulerStatusDAO)" />
+		<aop:advisor pointcut-ref="daoOperation1" advice-ref="daoExceptionAdvice" order="1" />
+		<aop:advisor pointcut-ref="daoOperation1" advice-ref="performanceInterceptor" order="2" />
+		<aop:advisor pointcut-ref="daoOperation1" advice-ref="txDAOAdvice1" order="3" />
+	</aop:config>
+	
+	<!-- For Audit Delete Operation :set User Id in Session Context that can be persisted across multiple batches on the same session -->
+	<aop:config>
+	 <aop:aspect id="deleteAuditLoggingAspect" ref="deleteAuditLogging" >
+		<aop:pointcut id="deleteDaoOperation" expression="execution(* delete*(..))" />
+		<aop:before method="setSessionContextInfo" pointcut-ref="deleteDaoOperation" />
+	 </aop:aspect>
+	</aop:config>
+</beans>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://payasia.mind.com/xml/bean" xmlns="http://payasia.mind.com/xml/bean">
+
+	<xs:element name="payDataCollectionData">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="payDataCollectionField" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="payDataCollectionField">
+		<xs:complexType>
+			<xs:attribute name="employeeNumber"  type="xs:string" />
+			<xs:attribute name="employeeId"  type="xs:string" />
+			<xs:attribute name="payCodeId"  type="xs:string" />
+			<xs:attribute name="amount"  type="xs:double" />
+			<xs:attribute name="fromDate"  type="xs:string" />
+			<xs:attribute name="toDate"  type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+

@@ -1,0 +1,310 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>payasia-parent</artifactId>
+		<groupId>com.payasia</groupId>
+		<version>0.0.1</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>payasia-logic</artifactId>
+	 <build>
+		<defaultGoal>package</defaultGoal>
+		<finalName>${project.artifactId}-${project.version}-r${prefix.revision}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			
+		<!-- Adding GIT plugin-->			
+		<plugin>
+ 			  <groupId>pl.project13.maven</groupId>
+   				<artifactId>git-commit-id-plugin</artifactId>
+    			<version>2.2.4</version>
+   			 <executions>
+        		<execution>
+          		  <id>get-the-git-infos</id>
+          	    <goals>
+                <goal>revision</goal>
+           		 </goals>
+        	</execution>
+    	</executions>
+    	<configuration>
+	        <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+	        <prefix>git</prefix>
+	        <verbose>false</verbose>
+	        <generateGitPropertiesFile>true</generateGitPropertiesFile>
+	        <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+	        <format>json</format>
+	        <gitDescribe>
+	            <skip>false</skip>
+	            <always>false</always>
+	            <dirty>-dirty</dirty>
+	        </gitDescribe>
+    	</configuration>
+	</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!-- This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											com.google.code.maven-svn-revision-number-plugin
+										</groupId>
+										<artifactId>
+											maven-svn-revision-number-plugin
+										</artifactId>
+										<versionRange>
+											[1.7,)
+										</versionRange>
+										<goals>
+											<goal>revision</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<properties>
+		<targetJdk>1.8</targetJdk>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.build.timestamp.format>yyyy/MM/dd HH:mm</maven.build.timestamp.format>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.amazonaws</groupId>
+				<artifactId>aws-java-sdk-bom</artifactId>
+				<version>${com.amazonaws.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
+	<dependencies>
+	
+	<!-- this dependency move to parent pom because this dependency use other module-->	
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>${itextpdf.version}</version>
+			<type>jar</type>
+		</dependency>
+		<!-- this dependency move to parent pom because this dependency use other module-->	
+		<dependency>
+			<groupId>com.itextpdf.tool</groupId>
+			<artifactId>xmlworker</artifactId>
+			<version>${itextpdf.tool.version}</version>
+			<type>jar</type>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-dynamodb</artifactId>
+		</dependency>
+		<!-- this dependency move to parent pom because this dependency use other module-->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<!-- <version>${commons.io.version}</version> -->
+		</dependency>
+		<dependency>
+			<groupId>com.payasia</groupId>
+			<artifactId>payasia-dao</artifactId>
+			<version>${payasia.dao.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.payasia</groupId>
+			<artifactId>payasia-common</artifactId>
+			<version>${payasia.common.version}</version>
+		</dependency>
+		<!-- this dependency move to parent pom because this dependency use other module-->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<!-- <version>${junit.version}</version> -->
+			<optional>false</optional>
+		</dependency>
+		<!-- this dependency move to parent pom because this dependency use other module-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.tx.version}</version>
+			<optional>false</optional>
+		</dependency>
+		<!-- this dependency move to parent pom because this dependency use other module-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.test.version}</version>
+			<scope>test</scope>
+			<optional>false</optional>
+		</dependency>
+		<!-- this dependency move to parent pom because this dependency use other module-->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<!-- <version>${log4j.version}</version> -->
+			<optional>false</optional>
+		</dependency>
+		<!-- this dependency move to parent pom because this dependency use other module-->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<!-- this dependency move to parent pom because this dependency use other module-->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poi.ooxml.version}</version> 
+		</dependency>
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>${dom4j.version}</version> 
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>commons-cli</groupId>
+			<artifactId>commons-cli</artifactId>
+			<version>${commons.cli.version}</version> 
+			<optional>false</optional>
+		</dependency>
+		<!-- this dependency move to parent pom because this dependency use other module-->
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>${commons.logging.version}</version>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+	      <groupId>org.beanio</groupId>
+	      <artifactId>beanio</artifactId>
+	      <version>${beanio.version}</version>
+	    </dependency>
+		 <dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>${joda.time}</version>
+		</dependency>
+		<!-- this dependency move to parent pom because this dependency use other module-->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+			<optional>false</optional>
+		</dependency>
+			<!-- this dependency move to parent pom because this dependency use other module-->
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>${commons.collections.version}</version>
+			<optional>false</optional>
+		</dependency>
+			<!-- this dependency move to parent pom because this dependency use other module-->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>${commons.fileupload.version}</version>
+			<optional>false</optional>
+		</dependency>
+		<!-- this dependency move to parent pom because this dependency use other module-->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.log4j12.version}</version>
+			<optional>false</optional>
+		</dependency>
+		<!-- this dependency move to parent pom because this dependency use other module-->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectjrt.version}</version>
+			<optional>false</optional>
+		</dependency>
+		<!-- this dependency move to parent pom because this dependency use other module-->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectjrt.version}</version>
+			<optional>false</optional>
+		</dependency>
+		<!-- this dependency move to parent pom because this dependency use other module-->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>${commons.lang.version}</version>
+			<optional>false</optional>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>${commons.codec.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>${net.sf.json.version}</version>
+			<classifier>jdk13</classifier>
+		</dependency>
+	
+		<dependency>
+			<groupId>com.payasia</groupId>
+			<artifactId>payasia-xml-bean</artifactId>
+			<version>${payasia.xml.bean.version}</version>
+		</dependency>
+	 
+	 <dependency>
+      <groupId>org.beanio</groupId>
+      <artifactId>beanio</artifactId>
+     <version>${beanio.version}</version>
+    </dependency>
+    
+    <dependency>
+		  <groupId>com.github.fernandospr</groupId>
+		  <artifactId>javapns-jdk16</artifactId>
+		  <version>${github.fernandospr.version}</version> 
+	</dependency>
+
+    <!-- StAX dependencies for JDK 1.5 users -->
+    <dependency>
+      <groupId>javax.xml</groupId>
+      <artifactId>jsr173</artifactId>
+       <version>${javax.xml.version}</version>  
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.stream</groupId>
+      <artifactId>sjsxp</artifactId> 
+        <version>${sun.xml.stream.version}</version>  
+    </dependency>
+	</dependencies>
+</project>

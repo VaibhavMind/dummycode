@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.payasia</groupId>
+	<artifactId>payasia-parent</artifactId>
+	<version>0.0.1</version>
+	<packaging>pom</packaging>
+	<name>PayAsia</name>
+	<description>PayAsia</description> 
+
+	<modules>
+		<module>payasia-web</module>
+		<module>payasia-dao-bean</module>
+		<module>payasia-dao</module>
+		<module>payasia-logic</module>
+		<module>payasia-common</module>
+		<module>payasia-xml-bean</module>
+	</modules>
+	
+	<properties>
+	
+		<targetJdk>1.8</targetJdk>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.build.timestamp.format>yyyy/MM/dd HH:mm</maven.build.timestamp.format>
+	
+	
+		<!--Spring Related dependencies  -->
+		<spring.web.version>4.3.9.RELEASE</spring.web.version>
+		<spring.tx.version>4.3.9.RELEASE</spring.tx.version>
+		<spring.test.version>4.3.9.RELEASE</spring.test.version>
+		<spring.context.version>4.3.9.RELEASE</spring.context.version>
+		<spring.security.version>4.2.3.RELEASE</spring.security.version>	
+		<spring.orm.version>4.3.9.RELEASE</spring.orm.version>
+		<spring.core.version>4.3.9.RELEASE</spring.core.version>
+		
+		
+		<!-- payasia web module api version -->
+		
+		<simplecaptcha.version>1.2.1</simplecaptcha.version>
+		<json.version>20090211</json.version>	
+		<junit.version>4.8.2</junit.version>
+		<commons.jexl.version>2.0.1</commons.jexl.version>	
+		
+		
+		
+		<ckeditor.version>3.5.3</ckeditor.version>
+		<commons.logging.version>1.1.1</commons.logging.version>
+		<commons.collections.version>3.1</commons.collections.version>
+		<commons.fileupload.version>1.2.2</commons.fileupload.version>
+		<commons.lang.version>2.6</commons.lang.version>
+		<commons.io.version>2.1</commons.io.version>
+				
+		 <!--  Logger	-->	
+		<slf4j.version>1.6.1</slf4j.version>
+		<log4j.version>1.2.16</log4j.version>
+		<slf4j.log4j12.version>1.6.1</slf4j.log4j12.version>
+		
+		<!-- json -->
+		<jackson.mapper.asl.version>1.8.5</jackson.mapper.asl.version>
+		<net.sf.json.version>2.1</net.sf.json.version>		
+	    <!--<javax.validation.version>1.0.0.GA</javax.validation.version> -->
+		<jaxb.impl.version>2.2.3</jaxb.impl.version>
+		<taglibs.version>1.1.2</taglibs.version>
+		<aspectjrt.version>1.6.9</aspectjrt.version>
+		<javaee.api.time>6.0</javaee.api.time>
+		<jaxb.api.version>2.3.0</jaxb.api.version>
+		<tiles.api.version>2.2.2</tiles.api.version>
+        <apache.cxf.version>2.5.0</apache.cxf.version>
+		<jstl.version>1.2</jstl.version>
+		<velocity.version>1.6.2</velocity.version>
+		<mail.version>1.4.3</mail.version>
+		<jxls.version>1.0</jxls.version>
+		<apache.cxf.version>2.5.0</apache.cxf.version>
+		
+		<com.thetransactioncompany.version>1.6</com.thetransactioncompany.version>
+		<jpedal.version>4.92b23</jpedal.version>
+        <jersey.server.version>1.18.1</jersey.server.version>
+
+		 <!--  payasia	-->	
+		<payasia.parent.version>0.0.1</payasia.parent.version>
+		<payasia.dao.bean.version>0.0.1</payasia.dao.bean.version>
+		<payasia.dao.version>0.0.1</payasia.dao.version>
+		<payasia.xml.bean.version>0.0.1</payasia.xml.bean.version>
+		<payasia.common.version>0.0.1</payasia.common.version>
+		<payasia.logic.version>0.0.1</payasia.logic.version>
+		 <!--  maven/svn	-->	
+		<maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
+		<maven.svn.revision.number-plugin.version>1.7</maven.svn.revision.number-plugin.version>
+		<svnkit.version>1.8.3-1</svnkit.version>
+		<maven.source.plugin.version>2.1.2</maven.source.plugin.version>
+		<maven.war.plugin.version>2.1.1</maven.war.plugin.version>
+		<lifecycle.mapping.version>1.0.0</lifecycle.mapping.version>
+		
+		 <!-- Payasia common-->		
+		 <!--  xml/mail/pdf	-->	 
+		<itextpdf.version>5.1.3</itextpdf.version>
+		<itextpdf.tool.version>1.1.1</itextpdf.tool.version>	
+		<commons-beanutils.version>1.7.0</commons-beanutils.version>
+		
+		<poi.version>3.7</poi.version>
+		<poi.ooxml.version>3.7</poi.ooxml.version>
+		<cglib.version>2.2.2</cglib.version>
+		
+		<!-- Payasia DAO -->		
+		
+		 <!--  hibernate	-->	
+		<hibernate.validator.version>5.1.0.Final</hibernate.validator.version>
+		<hibernate.corevalidator.version>5.1.0.Final</hibernate.corevalidator.version>
+		<hibernate.entitymanager.version>5.1.0.Final</hibernate.entitymanager.version>
+		<hibernate.ehcache.version>5.1.0.Final</hibernate.ehcache.version>
+		<commons.dbutils.version>1.6</commons.dbutils.version>  
+		<jtds.version>1.3.1</jtds.version>	
+		<commons.dbcp.version>1.4</commons.dbcp.version>
+	
+		<!-- Payasia logic -->
+		<com.amazonaws.version>1.11.22</com.amazonaws.version>
+		<dom4j.version>1.6.1</dom4j.version>
+		<commons.cli.version>1.0</commons.cli.version>		
+		<beanio.version>2.0.0</beanio.version>
+		<joda.time>2.9.9</joda.time>
+		<commons.codec.version>1.7</commons.codec.version>
+		<github.fernandospr.version>2.2.1</github.fernandospr.version>
+		<javax.xml.version>1.0</javax.xml.version>
+		<sun.xml.stream.version>1.0.2</sun.xml.stream.version>
+		
+		<!-- jmimemagic version for file upload  -->		
+ 		<jmimemagic.version>0.1.5</jmimemagic.version>
+		
+		<!-- SSO related dependency -->
+        <commons.httpclient.version>3.1</commons.httpclient.version>
+        <spring.mobile.device.version>1.1.5.RELEASE</spring.mobile.device.version>
+        <spring.security.saml2.core.version>1.0.0.RELEASE</spring.security.saml2.core.version>
+		<!-- SSO related dependency end-->
+  </properties>
+  
+</project>

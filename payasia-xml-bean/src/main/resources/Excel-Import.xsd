@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://payasia.mind.com/xml/bean" xmlns="http://payasia.mind.com/xml/bean">
+
+	<xs:element name="template">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element  minOccurs="0" maxOccurs="unbounded" ref="dataField" />
+			</xs:sequence> 
+			<xs:attribute name="templateName" use="required" type="xs:string" />
+			<xs:attribute name="category" use="required" type="xs:long" />
+			<xs:attribute name="templateDesc" type="xs:string" />
+			<xs:attribute name="formId" type="xs:long" />
+			<xs:attribute name="custTableName" type="xs:int" />
+			<xs:attribute name="transactionType" type="xs:string" />
+			<xs:attribute name="uploadType" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="dataField">
+		<xs:complexType>
+			<xs:attribute name="fieldId" type="xs:long" />
+			<xs:attribute name="dictionaryId" use="required" type="xs:long" />
+			<xs:attribute name="select"  type="xs:boolean" />
+			<xs:attribute name="excelField" use="required" type="xs:string" />
+			<xs:attribute name="description" type="xs:string" />
+			<xs:attribute name="defaultValue" type="xs:string" />
+			<xs:attribute name="sampleData" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+

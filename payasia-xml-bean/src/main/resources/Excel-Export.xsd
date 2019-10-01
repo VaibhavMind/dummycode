@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://payasia.mind.com/xml/bean" xmlns="http://payasia.mind.com/xml/bean">
+
+	<xs:element name="exportTemplate">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element  minOccurs="0" maxOccurs="unbounded" ref="exportDataField" />
+				<xs:element  minOccurs="0" maxOccurs="unbounded" ref="exportFilter" />
+			</xs:sequence> 
+			<xs:attribute name="templateName" use="required" type="xs:string" />
+			<xs:attribute name="scope" use="required" type="xs:string" />
+			<xs:attribute name="category" use="required" type="xs:long" />
+			<xs:attribute name="templateDesc" type="xs:string" />
+			<xs:attribute name="formId" type="xs:long" />
+			<xs:attribute name="custTableName" type="xs:int" />
+			<xs:attribute name="prefix" type="xs:string" />
+			<xs:attribute name="suffix" type="xs:string" />
+			<xs:attribute name="prefixCheck"  type="xs:boolean" />
+			<xs:attribute name="suffixCheck"  type="xs:boolean" />
+			<xs:attribute name="tsPrefixCheck"  type="xs:boolean" />
+			<xs:attribute name="tsSuffixCheck"  type="xs:boolean" />
+			<xs:attribute name="multipleSectionCheck"  type="xs:boolean" />
+			
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="exportDataField">
+		<xs:complexType>
+			<xs:attribute name="fieldId" type="xs:long" />
+			<xs:attribute name="dictionaryId" use="required" type="xs:long" />
+			<xs:attribute name="entityId"  type="xs:long" />
+			<xs:attribute name="dataDictionaryName"  type="xs:string" />
+			<xs:attribute name="select"  type="xs:boolean" />
+			<xs:attribute name="excelField" use="required" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="exportFilter">
+		<xs:complexType>
+			<xs:attribute name="filterId" type="xs:long" />
+			<xs:attribute name="dictionaryId" use="required" type="xs:long" />
+			<xs:attribute name="equalityOperator" use="required" type="xs:string" />
+			<xs:attribute name="value" use="required" type="xs:string" />
+			<xs:attribute name="logicalOperator" use="required" type="xs:string" />
+			<xs:attribute name="openBracket" type="xs:string" />
+			<xs:attribute name="closeBracket" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+

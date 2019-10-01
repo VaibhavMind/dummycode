@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<bean id="performanceInterceptor" class="com.payasia.common.aop.PerformanceInterceptor" />
+	<bean id="daoExceptionAdvice" class="com.payasia.common.aop.DAOThrowsAdvice" />
+	<bean id="logicExceptionAdvice" class="com.payasia.common.aop.LogicThrowsAdvice" />
+
+	<!-- enable the configuration of transactional behavior based on annotations  -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	<aop:config>
+		<aop:pointcut id="serviceOperation" expression="bean(*Service)" />
+		<aop:advisor pointcut-ref="serviceOperation" advice-ref="performanceInterceptor" />
+	</aop:config>
+
+	<aop:config>
+		<aop:pointcut id="logicOperation" expression="bean(*Logic)" />
+		<aop:advisor pointcut-ref="logicOperation" advice-ref="logicExceptionAdvice" />
+		<aop:advisor pointcut-ref="logicOperation" advice-ref="performanceInterceptor" />
+	</aop:config>
+	
+<!-- 	<aop:config> -->
+<!-- 		<aop:pointcut id="logicOperation" expression="bean(DataImportUtils)" /> -->
+<!-- 		<aop:advisor pointcut-ref="logicOperation" advice-ref="logicExceptionAdvice" /> -->
+<!-- 		<aop:advisor pointcut-ref="logicOperation" advice-ref="performanceInterceptor" /> -->
+<!-- 	</aop:config> -->
+	
+<!-- 	<aop:config> -->
+<!-- 		<aop:pointcut id="logicOperation" expression="bean(DataExportUtils)" /> -->
+<!-- 		<aop:advisor pointcut-ref="logicOperation" advice-ref="logicExceptionAdvice" /> -->
+<!-- 		<aop:advisor pointcut-ref="logicOperation" advice-ref="performanceInterceptor" /> -->
+<!-- 	</aop:config> -->
+
+	<aop:config>
+		<aop:pointcut id="daoOperation" expression="bean(*DAO)" />
+		<aop:advisor pointcut-ref="daoOperation" advice-ref="daoExceptionAdvice" />
+		<aop:advisor pointcut-ref="daoOperation" advice-ref="performanceInterceptor" />
+	</aop:config>
+
+</beans>

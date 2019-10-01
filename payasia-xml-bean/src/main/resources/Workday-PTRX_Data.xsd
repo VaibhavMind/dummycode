@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:pi="http://payasia.mind.com/xml/bean/workday/paydata"
+            targetNamespace="http://payasia.mind.com/xml/bean/workday/paydata"
+            elementFormDefault="qualified"
+            attributeFormDefault="qualified">
+    <xsd:element name="Payroll_Extract_Employees">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="PayGroup" type="pi:PayGroupType" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:complexType name="PayGroupType">
+        <xsd:sequence>
+            <xsd:element name="Header" type="pi:HeaderType"/>
+            <xsd:element name="Employee"
+                      type="pi:EmployeeType"
+                      minOccurs="0"
+                      maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="HeaderType">
+        <xsd:sequence>
+            <xsd:element name="Version" type="xsd:string"/>
+            <xsd:element name="Payroll_Company_ID" minOccurs="0" type="xsd:string"/>
+            <xsd:element name="Payroll_Company_Name" type="xsd:string"/>
+            <xsd:element name="Pay_Group_ID" minOccurs="0" type="xsd:string"/>
+            <xsd:element name="Pay_Group_Name" type="xsd:string"/>
+            <xsd:element name="Pay_Period_Start" type="xsd:string"/>
+            <xsd:element name="Pay_Period_End" type="xsd:string"/>
+            
+            <xsd:element name="Updated_From" type="xsd:string"/>
+            
+            <xsd:element name="Updated_To" type="xsd:string"/>
+            <xsd:element name="All_Effective" type="xsd:string"/>
+             
+            <xsd:element name="Document_Retention_Policy" type="xsd:string"/>
+            
+             
+            <xsd:element name="Full_Extract_With_No_Diff" type="xsd:string"/>
+            
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="EmployeeType">
+      <xsd:sequence>
+         <xsd:element name="Summary" type="pi:SummaryType"/>
+         <xsd:element name="Time_Off"
+                      type="pi:Time_OffType"
+                      minOccurs="0"
+                      nillable="true"
+                      maxOccurs="unbounded"/>
+         <xsd:element name="Time_Off_Correction"
+                      type="pi:Time_Off_CorrectionType"
+                      minOccurs="0"
+                      nillable="true"
+                      maxOccurs="unbounded"/>
+         <xsd:element name="Time_Tracking"
+                      type="pi:Time_TrackingType"
+                      minOccurs="0"
+                      nillable="true"
+                      maxOccurs="unbounded"/>
+         <xsd:element name="Time_Tracking_Correction"
+                      type="pi:Time_Tracking_CorrectionType"
+                      minOccurs="0"
+                      nillable="true"
+                      maxOccurs="unbounded"/>
+      </xsd:sequence>
+   </xsd:complexType>
+    <xsd:complexType name="SummaryType">
+        <xsd:sequence>
+            <xsd:element name="Employee_ID" type="pi:StringType"/>
+            <xsd:element name="Name" type="pi:StringType"/>
+            <xsd:element name="Payroll_Company_ID" minOccurs="0" type="pi:StringType"/>
+            <xsd:element name="Payroll_Company_Name" type="pi:StringType"/>
+            <xsd:element name="Pay_Group_ID" minOccurs="0" type="pi:StringType"/>
+            <xsd:element name="Pay_Group_Name" type="pi:StringType"/>
+            <xsd:element name="Contain_Corrections_or_Rescinds"
+                      minOccurs="0"
+                      type="pi:BooleanType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Time_OffType">
+      <xsd:annotation>
+         <xsd:documentation>This section includes a worker’s time off information. There can be many time off entries per worker. The occurrence behavior of this section depends on how the “Include Paid Time Off section” integration attribute is configured.
+Field attributes define the behaviors and restrictions of individual fields. Enable “Include in Output” for a field to include the field in the output file. Enable “Required Field” to require the field to be included in the output file. Select a Maximum Length to truncate any value that exceeds the limit  value.
+If you specify a Payroll Interface version of 16 or later, (using the Version integration attribute), you can define the format of date type and date-time type fields using the Date Format and Datetime Format integration attributes.
+For Boolean type fields, valid values are 0 (false) and 1 (true).
+Fields annotated with (IA) indicate that the field value may be controlled by an integration attribute.
+Field annotated with (IM) indicate that the field value can be mapped using an Integration Map.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element name="Code" type="pi:StringType" minOccurs="0" nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The code of the type of time off requested. This is a free-form text field.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+        
+         <xsd:element name="Quantity"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>(IA) This field is only applicable for Daily Summary Time Off Reporting Interval. This field represents the quantity that was report on the Time Off Date. This is a numeric field.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Unit_of_Time"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>This is the unit of time associated with the quantity provided. DAYS, MONTHS, and HOURS.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="Time_Off_CorrectionType">
+      <xsd:annotation>
+         <xsd:documentation>This section includes the worker’s time off corrections information. Corrections includes 1) Time Offs entered for pay periods prior to the processing pay period. 2) Correcting Time Offs that are effective in pay periods that are prior to the processing pay period. There can be one to many time off corrections per worker. Field attributes define the behaviors and restrictions of individual fields. Enable “Include in Output” for a field to include the field in the output file. Enable “Required Field” to require the field to be included in the output file. Select a Maximum Length to truncate any value that exceeds the limit value.
+If you specify a Payroll Interface version of 16 or later, (using the Version integration attribute), you can define the format of date type and date-time type fields using the Date Format and Datetime Format integration attributes.
+For Boolean type fields, valid values are 0 (false) and 1 (true).
+Fields annotated with (IA) indicate that the field value may be controlled by an integration attribute.
+Field annotated with (IM) indicate that the field value can be mapped using an Integration Map.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element name="Code" type="pi:StringType" minOccurs="0" nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The external payroll code associated with time off correction reported in this section. The occurrence of time off correction sections for a particular external payroll code depends on the inclusion or exclusion of field “Position ID”.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Quantity"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>This is a numeric value that can be either be positive or negative. This field reports the difference between the hours previously reported and currently corrected to on the Date of the Time Off.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Unit_of_Time"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>This is the unit of time associated with the quantity provided. DAYS, MONTHS, and HOURS.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="Time_Tracking_CorrectionType">
+      <xsd:annotation>
+         <xsd:documentation>This section includes worker’s time tracking correction information. There can be one to many time tracking correction sections per worker. Modifications made to Time Tracking Data for Dates within a specific pay period is considered a time tracking correction if the update time is after the aforementioned pay period end date. Since time tracking data is considered bulk data, it is recommended to create a non-primary integration system that only process time tracking data. This section will only have the behavior of "always include" for data entered within the last successful run and the current date. 
+
+Following field attributes defines the behaviors and restrictions of individual fields. Enabling “Include in Output” for a field will trigger the inclusion of the field in the output file. Enabling “Required Field” will trigger validation that requires the field to be included in the output file. Specifying “Maximum Length” will guarantee the max length of the value in a field by truncating the value.
+For payroll Interface of Version 16 and above, specified using PI Integration Attribute “Version”, will be able define the format of Date type fields using PI Integration Attribute “Date Format”. Similarly, for PI of version 16 and above, format of Datetime type field can be defined using PI Integration Attribute “Datetime Format”.
+For Boolean type fields, values include 0 (false) and 1 (true).
+Field with annotation of (IA) represent this field value is potentially being controlled by a PI Integration Attribute.
+Field with annotation of (IM) represent this field value can be mapped using a PI Integration Map.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element name="Code" type="pi:StringType" minOccurs="0" nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The external payroll code associated with time reported in this section. The occurrence of time tracking sections for a particular external payroll code depends on the inclusion or exclusion of field “Position ID” and “Work Tag”.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Quantity"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The reported hours worked in the reporting interval specified.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="Time_TrackingType">
+      <xsd:annotation>
+         <xsd:documentation>This section includes worker’s time tracking information. There can be one to many time tracking sections per worker. Time tracking data can be outputted in two different level, Per Day and Per Pay Period, this behavior is controlled by PI Integration Attribute “Time Tracking Reporting Interval”. Since time tracking data is considered bulk data, it is recommended to create a non-primary integration system that only process time tracking data. The occurrence behavior of this section is dependent on how PI Integration Attribute “Include Time Tracking Data section” is configured. For sections that can occur multiple times, an “Operation” field is added to the section in order to indicate if the associated section is added, removed, modified or nothing at all.
+Following field attributes defines the behaviors and restrictions of individual fields. Enabling “Include in Output” for a field will trigger the inclusion of the field in the output file. Enabling “Required Field” will trigger validation that requires the field to be included in the output file. Specifying “Maximum Length” will guarantee the max length of the value in a field by truncating the value.
+For payroll Interface of Version 16 and above, specified using PI Integration Attribute “Version”, will be able define the format of Date type fields using PI Integration Attribute “Date Format”. Similarly, for PI of version 16 and above, format of Datetime type field can be defined using PI Integration Attribute “Datetime Format”.
+For Boolean type fields, values include 0 (false) and 1 (true).
+Field with annotation of (IA) represent this field value is potentially being controlled by a PI Integration Attribute.
+Field with annotation of (IM) represent this field value can be mapped using a PI Integration Map.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element name="Operation"
+                      type="pi:PYI_Operation_Type"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>This field is used to indicate the change made to time tracking data between extracts. Supported values include “ADD”, “REMOVE”, “MODIFY” and “NONE”. Field attribute “Include in Output” does not apply to this field. This field will always be included in the output if the position section is present.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Code" type="pi:StringType" minOccurs="0" nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The external payroll code associated with time reported in this section. The occurrence of time tracking sections for a particular external payroll code depends on the inclusion or exclusion of field “Position ID” and “Work Tag”.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="Quantity"
+                      type="pi:StringType"
+                      minOccurs="0"
+                      nillable="true">
+            <xsd:annotation>
+               <xsd:documentation>The reported hours worked in the reporting interval specified.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="Additional_InformationType">
+      <xsd:sequence/>
+   </xsd:complexType>
+    
+    <xsd:simpleType name="Earning_or_DeductionValueType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="E"/>
+            <xsd:enumeration value="D"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:complexType name="Earning_or_Deduction_Type">
+        <xsd:simpleContent>
+            <xsd:extension base="pi:Earning_or_DeductionValueType">
+                <xsd:attribute name="PriorValue" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    
+    <xsd:simpleType name="Cost_Allocation_LevelValueType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="W"/>
+            <xsd:enumeration value="P"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:complexType name="PYI_Costing_Allocation_Level_Type">
+        <xsd:simpleContent>
+            <xsd:extension base="pi:Cost_Allocation_LevelValueType">
+                <xsd:attribute name="PriorValue" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    
+    <xsd:simpleType name="PYI_Operation_Type">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="ADD"/>
+            <xsd:enumeration value="REMOVE"/>
+            <xsd:enumeration value="MODIFY"/>
+            <xsd:enumeration value="NONE"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="Compensation_Summarization_Format_Type">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Annualized"/>
+            <xsd:enumeration value="Annualized in Reporting Currency"/>
+            <xsd:enumeration value="Default"/>
+            <xsd:enumeration value="Hourly Frequency"/>
+            <xsd:enumeration value="Pay Group Frequency"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:complexType name="Address_LineType">
+        <xsd:simpleContent>
+            <xsd:extension base="pi:StringType">
+                <xsd:attribute name="Label" type="xsd:string"/>
+                <xsd:attribute name="Type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    
+    <xsd:simpleType name="YearType">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="0"/>
+            <xsd:maxInclusive value="9999"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:complexType name="StringType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="PriorValue" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="BooleanType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:boolean">
+                <xsd:attribute name="PriorValue" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="DateType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:date">
+                <xsd:attribute name="PriorValue" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="DateTimeType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:dateTime">
+                <xsd:attribute name="PriorValue" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:schema>

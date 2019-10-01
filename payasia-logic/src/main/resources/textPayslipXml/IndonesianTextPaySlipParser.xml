@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<beanio xmlns="http://www.beanio.org/2012/03" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.beanio.org/2012/03 http://www.beanio.org/2012/03/mapping.xsd">
+
+  <stream name="ipp" format="fixedlength">
+     <group name="textPaySlip"  class="com.payasia.common.dto.TextPaySlipListDTO" 
+	        minOccurs="1" maxOccurs="1">
+           <group name="textPaySlipDTOList" getter="getTextPaySlipDTOList" setter="setTextPaySlipDTOList" collection="list" class="com.payasia.common.dto.TextPaySlipDTO"
+                minOccurs="1" maxOccurs="unbounded" >
+				     <record name="blank" occurs="0+">
+				       <field name="filler" rid="true" regex="[ ]*" length="90" />
+				     </record>
+				     <record name="blank" occurs="0+">
+				       <field name="filler" rid="true" regex="[-*]*" length="90" />
+				     </record>
+				 
+				       <record name="empInfoHeaderSection1DTOList" getter="getEmpInfoHeaderSection1DTOList" setter="setEmpInfoHeaderSection1DTOList" class="com.payasia.common.dto.EmpInfoHeaderTextPayslipDTO" 
+				        collection="list" minOccurs="1" maxOccurs="1" >
+				        <field name="keyConstant1" length="67" trim="false"  />
+				        <field name="keyConstant3" length="29" trim="false"  justify="right" />
+				      </record>
+				       <record name="empInfoHeaderSection2DTOList" getter="getEmpInfoHeaderSection2DTOList" setter="setEmpInfoHeaderSection2DTOList" class="com.payasia.common.dto.EmpInfoHeaderTextPayslipDTO" 
+				        collection="list" minOccurs="1" maxOccurs="2" >
+				        <field name="keyConstant1" position="1" length="39" trim="false"  justify="left" padding=" " />
+				        <field name="keyConstant2" position="40" length="27" trim="false" justify="left" padding=" " />
+				        <field name="keyConstant3" position="69" length="27" trim="true" justify="right" padding=" " />
+				      </record>
+					  <record name="totalIncomeSectionDTOList" getter="getTotalIncomeSectionDTOList" setter="setTotalIncomeSectionDTOList" class="com.payasia.common.dto.TotalIncomeSectionTextPayslipDTO" 
+				        collection="list" minOccurs="1" maxOccurs="13" >
+				        <field name="key1" position="1" length="32" trim="false" justify="left" padding=" " />
+				        <field name="key2" position="34" length="12" trim="true" justify="right" padding=" "/>
+				        <field name="key3" position="48" length="33" trim="false" justify="left" padding=" " />
+				        <field name="key4" position="84" length="12" trim="true" justify="right" padding=" " />
+				      </record>
+					   <record name="bankInfoSectionDTOList"  getter="getBankInfoSectionDTOList" setter="setBankInfoSectionDTOList" collection="list" minOccurs="1" maxOccurs="1" class="com.payasia.common.dto.BankInfoTextPayslipDTO" >
+				        <field name="bankInfo" position="1" length="39" trim="false" justify="left" padding=" " />
+				        <field name="netPay" position="49" length="47" trim="false" justify="right" padding=" "/>
+				      </record>
+					  <record name="summarySectionDTOList" getter="getSummarySectionDTOList" setter="setSummarySectionDTOList" class="com.payasia.common.dto.SummarySectionTextPayslipDTO" 
+				        collection="list" minOccurs="1" maxOccurs="4" >
+				        <field name="key" position="47" length="15" justify="left" trim="true" padding=" "   />
+				        <field name="currentValue" position="64" length="15" justify="left" trim="true" padding=" "   />
+				        <field name="ytdValue" position="80" length="16" justify="left" trim="true" padding=" "   />
+				      </record>
+				      <record name="summaryLeftFourColSectionDTOList" getter="getSummaryLeftFourColSectionDTOList" setter="setSummaryLeftFourColSectionDTOList" class="com.payasia.common.dto.SummarySectionTextPayslipDTO" 
+				        collection="list" minOccurs="1" maxOccurs="2" >
+				        <field name="key" position="47" length="15" justify="left" trim="true" padding=" "   />
+				        <field name="currentValue" position="63" length="11" justify="left" trim="true" padding=" "   />
+				        <field name="ytdValue" position="75" length="10" justify="left" trim="true" padding=" "   />
+				        <field name="col4" position="86" length="10" justify="left" trim="true" padding=" "   />
+				      </record>
+            </group>
+     </group>
+  </stream>
+</beanio>
